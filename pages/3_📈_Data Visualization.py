@@ -31,18 +31,32 @@ df = pd.read_csv('HR_Analytics.csv')
 tab1, tab2, tab3, tab4 = st.tabs(["Box Plot", "Density Plot", "Scatter Plot", "Heatmap"])
 
 with tab1:
-    # Box plot for salary distribution by job level
+    # Box plot for salary distribution by job level (full-width)
     fig_box = px.box(df, x="JobLevel", y="MonthlyIncome", color="JobLevel",
-                 title="Monthly Income Distribution by Job Level",
-                 labels={"JobLevel": "Job Level", "MonthlyIncome": "Monthly Income"})
-    st.plotly_chart(fig_box)
+                     title="Monthly Income Distribution by Job Level",
+                     labels={"JobLevel": "Job Level", "MonthlyIncome": "Monthly Income"})
+
+    # Display the box plot with full width
+    st.plotly_chart(fig_box, use_container_width=True)
+
+    # Add insights below the plot
+    st.markdown("""
+    The graph shows a clear positive relationship between job level and monthly income. As job levels increase from 1 to 5, median income rises significantly. Lower job levels (1 and 2) have a more compact income distribution with less variability, while higher levels (3 to 5) show broader income ranges and higher pay. The trend highlights a structured salary progression, with stable but higher pay at senior job levels. There are a few outliers in lower levels, indicating some variation in income.
+    """)
 
 with tab2:
-    # Density plot for monthly income
+    # Density plot for monthly income (full-width)
     density_fig = px.histogram(df, x='MonthlyIncome', nbins=30, marginal='rug',
-                           title='Density Plot for Monthly Income',
-                           labels={'MonthlyIncome': 'Monthly Income', 'count': 'Density'})
-    st.plotly_chart(density_fig)
+                               title='Density Plot for Monthly Income',
+                               labels={'MonthlyIncome': 'Monthly Income', 'count': 'Density'})
+    
+    # Display the density plot with full width
+    st.plotly_chart(density_fig, use_container_width=True)
+
+    # Add insights below the plot
+    st.markdown("""
+    The density plot shows that the monthly income distribution is skewed to the right, with most employees earning lower salaries and a few outliers earning significantly higher incomes. The peak of the distribution is around 5k, indicating that this salary range is the most common. The overall range of monthly income is from 0 to 20k.
+    """)
 
 with tab3:
     # Create subplots for independent variables vs Monthly Income
@@ -132,6 +146,10 @@ with tab3:
     # Show the figure
     st.plotly_chart(fig)
 
+    st.markdown("""
+    The scatter plots show that job level, total working years, and years at company are positively correlated with monthly income, while age has a weaker positive correlation. Among these factors, job level is the strongest predictor of monthly income.
+    """)
+
 with tab4:
     # Specify the columns you want to include in the correlation heatmap
     columns_to_include = ['Age', 'JobLevel', 'MonthlyIncome', 'TotalWorkingYears', 'YearsAtCompany']
@@ -142,6 +160,7 @@ with tab4:
     # Correlation Heatmap of the selected columns
     corr_matrix = df_selected.corr()
 
+    # Update figure size and centering it
     fig = go.Figure(data=go.Heatmap(
         z=corr_matrix.values,
         x=corr_matrix.columns,
@@ -150,13 +169,25 @@ with tab4:
         colorbar=dict(title='Correlation Coefficient')
     ))
 
+    # Update the layout for better size and centering
     fig.update_layout(
         title='Correlation Heatmap',
         xaxis_title='Variables',
         yaxis_title='Variables',
         xaxis=dict(tickvals=list(range(len(corr_matrix.columns))), ticktext=corr_matrix.columns),
         yaxis=dict(tickvals=list(range(len(corr_matrix.columns))), ticktext=corr_matrix.columns),
+        width=800,  # Increased width
+        height=600,  # Increased height
+        autosize=False,
+        margin=dict(l=100, r=100, t=100, b=100),
+        title_x=0.5  # Center the title
     )
 
-    st.plotly_chart(fig)  # Use st.plotly_chart to display the figure in Streamlit
+    # Show the heatmap
+    st.plotly_chart(fig, use_container_width=True)  # Use the full container width to center
+
+    # Add insights below the heatmap
+    st.markdown("""
+    The heatmap confirms the findings from the previous scatter plots, highlighting the strong relationships between job level and monthly income, as well as the positive associations between total working years, years at company, and monthly income. Age appears to have a limited influence on these variables.
+    """)
 
