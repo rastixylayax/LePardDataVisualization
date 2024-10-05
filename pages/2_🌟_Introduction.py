@@ -1,10 +1,16 @@
 import streamlit as st
+import pandas as pd
+import panel as pn
+import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+import numpy as np
 
 # An Introduction Section describing the dataset, its source, and the purpose of your exploration.
 
 st.set_page_config(
-    page_title="Page 2",
-    page_icon=":woman_and_man_holding_hands:",
+    page_title="Le Pard | Introduction",
+    page_icon="🌟",
     layout="wide")
 
 # Hero Section
@@ -27,8 +33,18 @@ with col2:
     
 st.divider()
 
+# Load the dataset (CSV file)
+df = pd.read_csv('HR_Analytics.csv')
+# XLSX file
+excel_file = 'HR_Analytics.xlsx'
+
+sheet_name = '(clean w Outlier)HR_Analytics'  # Replace with the name of the sheet you want to display
+df_sheet = pd.read_excel(excel_file, sheet_name=sheet_name)
+
 # Expander
 with st.expander("Dataset Snapshots on Excel (Raw Data)"):
-    st.image('assets/dataset_excel_pic.png', width=950)
+    st.subheader("Raw Data")
+    st.dataframe(df)
     st.divider()
-    st.image('assets/dataset_excel_pic2.png', width=950)
+    st.subheader("Cleaned Data with Outliers")
+    st.dataframe(df_sheet)

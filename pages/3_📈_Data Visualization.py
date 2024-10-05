@@ -10,8 +10,8 @@ import plotly.graph_objects as go
 import numpy as np
 
 st.set_page_config(
-    page_title="Page 2",
-    page_icon=":woman_and_man_holding_hands:",
+    page_title="Le Pard | Visualization",
+    page_icon="📈",
     layout="wide")
 
 # Hero Section
