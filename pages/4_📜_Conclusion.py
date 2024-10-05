@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 st.set_page_config(
     page_title="Le Pard | Conclusion",
     page_icon="📜",
-    layout="wide")
+    layout="centered")
 
 # Load the dataset
 df = pd.read_csv('HR_Analytics.csv')
