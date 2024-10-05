@@ -17,12 +17,12 @@ st.set_page_config(
 col1, col2 = st.columns(2, gap="small")
 with col1:
     st.image('assets/dataset_pic.png', width=450)
-    st.markdown("<p style='text-align: center; text- color: #EFEFEF;'><i>Source: Saad Haroon (Kaggle)</i></p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: left;'><i>Source: Saad Haroon (Kaggle)</i></p>", unsafe_allow_html=True)
 
 with col2:
     st.title("HR Analytics Dataset")
     st.markdown("""
-<p style='text-align: left; color: #EFEFEF;'>
+<p style='text-align: left;'>
     This dataset captures various aspects 
     of human resources, such as job roles, monthly income, and tenure within an organization. Its primary focus is to 
     provide insights into factors that influence key HR metrics, such as <i><b>employee performance, job satisfaction, and 

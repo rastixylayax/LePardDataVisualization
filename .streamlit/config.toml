@@ -1,0 +1,23 @@
+# [theme]
+# primaryColor="#ccccc9"
+# backgroundColor="#363633"
+# secondaryBackgroundColor="#2c3b41"
+# textColor="#f5feeb"
+
+# [theme]
+# primaryColor="#e8c5e6"
+# backgroundColor="#3a1738"
+# secondaryBackgroundColor="#040307"
+# textColor="#ecedeb"
+
+# [theme]
+# primaryColor="#d4d4d8"
+# backgroundColor="#27272b"
+# secondaryBackgroundColor="#230821"
+# textColor="#d9d7d8"
+
+[theme]
+primaryColor="#adc9d2"
+backgroundColor="#2d4952"
+secondaryBackgroundColor="#2a033b"
+textColor="#dfe5da"

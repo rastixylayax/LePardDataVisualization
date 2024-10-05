@@ -12,21 +12,33 @@ import numpy as np
 st.set_page_config(
     page_title="Le Pard | Visualization",
     page_icon="📈",
-    layout="wide")
+    layout="centered")
 
 # Hero Section
-st.markdown("<h3 style='text-align: center; color: #f14a16;'>HR Analytics Visualizations</h3>", unsafe_allow_html=True)
+st.markdown("<h3 style='text-align: center;'>HR Analytics Visualizations</h3>", unsafe_allow_html=True)
+
+# Load the dataset (CSV file)
+df = pd.read_csv('HR_Analytics.csv')
+# XLSX file
+excel_file = 'HR_Analytics.xlsx'
+
+sheet_name = '(clean w Outlier)HR_Analytics'
+df_sheet = pd.read_excel(excel_file, sheet_name=sheet_name)
+
+sheet_name2 = '(FINAL)HR_Analytics'
+df_sheet2 = pd.read_excel(excel_file, sheet_name=sheet_name)
 
 # Expander
-with st.expander("Dataset Snapshots on Excel (Raw to Cleaned Data)"):
-    st.image('assets/dataset_excel_pic.png', width=950)
+with st.expander("Dataset Snapshots on Excel (Raw Data to Clean Data)"):
+    st.subheader("Raw Data")
+    st.dataframe(df)
     st.divider()
-    st.image('assets/dataset_excel_pic2.png', width=650)
+    st.subheader("Cleaned Data with Outliers")
+    st.dataframe(df_sheet)
     st.divider()
-    st.image('assets/dataset_excel_pic3.png', width=450)
+    st.subheader("Final Cleaned Data")
+    st.dataframe(df_sheet2)
 
-# Load the dataset
-df = pd.read_csv('HR_Analytics.csv')
 
 tab1, tab2, tab3, tab4 = st.tabs(["Box Plot", "Density Plot", "Scatter Plot", "Heatmap"])
 
@@ -59,24 +71,35 @@ with tab2:
     """)
 
 with tab3:
-    # Create subplots for independent variables vs Monthly Income
-    independent_variables = ['JobLevel', 'Age', 'TotalWorkingYears', 'YearsAtCompany']
-    y_variable = 'MonthlyIncome'
+    # Dropdown for selecting the scatter plot
+    scatter_plot_type = st.selectbox("Choose Scatter Plot", ["Job Level vs Monthly Income", "Age vs Monthly Income", "Total Working Years vs Monthly Income", "Years at Company vs Monthly Income"])
 
-    # Define subplot dimensions
-    subplot_titles = ['Job Level vs Monthly Income', 'Age vs Monthly Income', 'Total Working Years vs Monthly Income', 'Years at Company vs Monthly Income']
-    shared_yaxes = True
+    # Create a dictionary to map the dropdown options to the corresponding independent variables
+    scatter_plot_mapping = {
+        "Job Level vs Monthly Income": "JobLevel",
+        "Age vs Monthly Income": "Age",
+        "Total Working Years vs Monthly Income": "TotalWorkingYears",
+        "Years at Company vs Monthly Income": "YearsAtCompany"
+    }
 
-    # Create subplots
-    fig = make_subplots(rows=2, cols=2, subplot_titles=subplot_titles, shared_yaxes=shared_yaxes)
+    # Create a dictionary to map each graph type to a specific color
+    color_mapping = {
+        "Job Level vs Monthly Income": "darkblue",
+        "Age vs Monthly Income": "green",
+        "Total Working Years vs Monthly Income": "red",
+        "Years at Company vs Monthly Income": "purple"
+    }
 
-    # Define colors for regression lines
-    line_colors = ['darkblue', 'green', 'red', 'purple']
+    # Get the selected independent variable and color
+    selected_variable = scatter_plot_mapping[scatter_plot_type]
+    selected_color = color_mapping[scatter_plot_type]
 
-    # Define legends for the plots
-    legends = ['Job Level', 'Age', 'Total Working Years', 'Years at Company']
+    # Perform linear regression on the entire dataset
+    X = df[[selected_variable]].values
+    y = df['MonthlyIncome'].values
+    model_coefs = np.polyfit(X.squeeze(), y, 1)
 
-    # Add a function to calculate the R-squared value for a linear regression
+    # Calculate R-squared
     def calculate_r_squared(x, y, coefs):
         y_pred = coefs[0] * x + coefs[1]
         y_mean = np.mean(y)
@@ -85,69 +108,64 @@ with tab3:
         r_squared = 1 - (ss_res / ss_total)
         return r_squared
 
-    # Loop through the independent variables and create subplots
-    for i, x_var in enumerate(independent_variables):
-        row = i // 2 + 1
-        col = i % 2 + 1
+    r_squared = calculate_r_squared(X.squeeze(), y, model_coefs)
 
-        # Randomly sample 25% of the data for visualization
-        sampled_df = df.sample(frac=0.25, random_state=42)
+    # Randomly sample 25% of the data for visualization
+    sampled_df = df.sample(frac=0.25, random_state=42)
 
-        # Perform linear regression on the entire dataset
-        X = df[[x_var]].values
-        y = df[y_variable].values
-        model_coefs = np.polyfit(X.squeeze(), y, 1)
-
-        # Calculate R-squared
-        r_squared = calculate_r_squared(X.squeeze(), y, model_coefs)
-
-        # Create a scatter plot for each variable
-        scatter = go.Scatter(x=sampled_df[x_var], y=sampled_df[y_variable], mode="markers", name=f"Scatter ({legends[i]})")
-        regression_line = go.Scatter(x=sampled_df[x_var], y=sampled_df[x_var] * model_coefs[0] + model_coefs[1], mode="lines", line=dict(color=line_colors[i]), name=f"Regression Line ({legends[i]})")
-
-        # Add regression equation and R-squared to plot
-        fig.add_trace(scatter, row=row, col=col)
-        fig.add_trace(regression_line, row=row, col=col)
-
-        # Calculate coordinates for annotations
-        x_coord = sampled_df[x_var].min() + 0.05 * (sampled_df[x_var].max() - sampled_df[x_var].min())
-        y_coord = sampled_df[y_variable].max() - 0.1 * (sampled_df[y_variable].max() - sampled_df[y_variable].min())
-
-        # Add regression equation and R-squared to the plot
-        fig.add_annotation(
-            text=f'y = {model_coefs[0]:.2f}x + {model_coefs[1]:.2f}',
-            x=x_coord,
-            y=y_coord,
-            showarrow=False,
-            row=row,
-            col=col
+    # Create a scatter plot for the selected variable
+    scatter = go.Scatter(
+        x=sampled_df[selected_variable], 
+        y=sampled_df['MonthlyIncome'], 
+        mode="markers", 
+        marker=dict(color=selected_color), 
+        name=f"Dependent Variable"
+    )
+    regression_line = go.Scatter(
+        x=sampled_df[selected_variable], 
+        y=sampled_df[selected_variable] * model_coefs[0] + model_coefs[1], 
+        mode="lines", 
+        line=dict(color=selected_color), 
+        name=(
+            f"Regression Line"
         )
-        fig.add_annotation(
-            text=f'R² = {r_squared:.4f}',
-            x=x_coord,
-            y=y_coord - 0.1 * (sampled_df[y_variable].max() - sampled_df[y_variable].min()),
-            showarrow=False,
-            row=row,
-            col=col
-        )
+    )
 
-        # Set the x label for each subplot
-        fig.update_xaxes(title_text=x_var, row=row, col=col)
+    # Create the figure
+    fig = go.Figure()
+    fig.add_trace(scatter)
+    fig.add_trace(regression_line)
 
-        # Set the y-axis label only in the first column
-        if col == 1:
-            fig.update_yaxes(title_text=y_variable, row=row, col=col)
-        else:
-            fig.update_yaxes(showticklabels=False, row=row, col=col)
+    # Calculate coordinates for annotations
+    x_coord = sampled_df[selected_variable].min() + 0.05 * (sampled_df[selected_variable].max() - sampled_df[selected_variable].min())
+    y_coord = sampled_df['MonthlyIncome'].max() - 0.1 * (sampled_df['MonthlyIncome'].max() - sampled_df['MonthlyIncome'].min())
+
+    # Add regression equation and R-squared to the plot
+    fig.add_annotation(
+        text=f'y = {model_coefs[0]:.2f}x + {model_coefs[1]:.2f}',
+        x=x_coord,
+        y=y_coord,
+        showarrow=False
+    )
+    fig.add_annotation(
+        text=f'R² = {r_squared:.4f}',
+        x=x_coord,
+        y=y_coord - 0.1 * (sampled_df['MonthlyIncome'].max() - sampled_df['MonthlyIncome'].min()),
+        showarrow=False
+    )
+
+    # Set the x and y labels
+    fig.update_xaxes(title_text=selected_variable)
+    fig.update_yaxes(title_text='MonthlyIncome')
 
     # Update the overall figure size to make it larger
-    fig.update_layout(width=1400, height=800)
+    fig.update_layout(width=800, height=600)
 
     # Show the figure
     st.plotly_chart(fig)
 
-    st.markdown("""
-    The scatter plots show that job level, total working years, and years at company are positively correlated with monthly income, while age has a weaker positive correlation. Among these factors, job level is the strongest predictor of monthly income.
+    st.markdown(f"""
+    The scatter plot shows the relationship between {selected_variable} and Monthly income. The regression line and R-squared value indicate the strength and direction of this relationship.
     """)
 
 with tab4:
