@@ -12,6 +12,7 @@ panel = "*"
 plotly = "*"
 streamlit = "*"
 openpyxl = "*"
+streamlit-option-menu = "*"
 
 [dev-packages]
 
