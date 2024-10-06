@@ -106,7 +106,7 @@ def app():
     st.subheader("Conclusion")
     st.markdown(
         """
-    The majority of employees in the dataset are between 30-40 years old, with ages 34-35 being the most common. Most employees are at Job Level 1, signifying entry-level positions, and salaries range from \$2,000 to \$10,000. The histogram shows that the most frequent age group is 34-35, followed closely by 30-31 and 35-37.
+    The majority of employees in the dataset are between 30-40 years old, with ages 34-35 being the most common. Most employees are at Job Level 1, signifying entry-level positions, and salaries range from \$2,000 to \$10,000. The histogram shows that the most frequent age group is 34-35, followed closely by 30-31 and 36-37.
                 
     This data suggests that the organization has a relatively young workforce, with many employees just starting their careers. The broad salary range may reflect a mix of roles or varying levels of expertise within the same job level. HR could use this information to design career development programs for younger, entry-level employees while considering competitive compensation strategies to retain top talent across these age groups.
     """
