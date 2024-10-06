@@ -36,21 +36,21 @@ def app():
 
     # Create a container with a Bootstrap icon
     with col1:
-        with st.container(border=True):
+        with st.container():
             coll1, coll2 = st.columns([0.8, 3]) 
             with coll1:
                 st.markdown("<div style='text-align: center;'><i class='bi bi-people' style='color: #eb5e28; font-size: 38px;'></i></div>", unsafe_allow_html=True)  # Center the icon
             with coll2:
                 st.metric("Most Common Age Range", "30-40 years")
     with col2:
-        with st.container(border=True):
+        with st.container():
             coll1, coll2 = st.columns([0.8, 3]) 
             with coll1:
                 st.markdown("<div style='text-align: center;'><i class='bi bi-graph-up' style='color: #eb5e28; font-size: 38px;'></i></div>", unsafe_allow_html=True)  # Center the icon
             with coll2:
                 st.metric("Most Frequent Job Level", "1 (Entry Level)")
     with col3:    
-        with st.container(border=True):
+        with st.container():
             coll1, coll2 = st.columns([0.8, 3]) 
             with coll1:
                 st.markdown("<div style='text-align: center;'><i class='bi bi-cash-coin' style='color: #eb5e28; font-size: 38px;'></i></div>", unsafe_allow_html=True)  # Center the icon

@@ -49,10 +49,10 @@ def app():
         st.dataframe(df_sheet2)
 
 
-    tab1, tab2, tab3, tab4 = st.tabs(["Box Plot", "Density Plot", "Scatter Plot", "Heatmap"])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(["Box Plot", "Density Plot", "Scatter Plot", "Heatmap", "Job Level Distribution"])
 
     with tab1:
-        with st.container(border=True):
+        with st.container():
             # Create two columns to limit width
             col1, col2, col3 = st.columns([0.5, 3, 0.5])  # Adjust the proportions as needed
             with col2:  # Center column for the plot
@@ -70,7 +70,7 @@ def app():
         """)
 
     with tab2:
-        with st.container(border=True):
+        with st.container():
             # Create two columns to limit width
             col1, col2, col3 = st.columns([0.5, 3, 0.5])  # Adjust the proportions as needed
             with col2:  # Center column for the plot
@@ -90,7 +90,7 @@ def app():
         """)
 
     with tab3:
-        with st.container(border=True):
+        with st.container():
             # Dropdown for selecting the scatter plot
             scatter_plot_type = st.selectbox("Choose Scatter Plot", ["Job Level vs Monthly Income", "Age vs Monthly Income", "Total Working Years vs Monthly Income", "Years at Company vs Monthly Income"])
             # Create two columns to limit width
@@ -215,7 +215,7 @@ def app():
             )
 
     with tab4:
-        with st.container(border=True):
+        with st.container():
             # Create two columns to limit width
             col1, col2, col3 = st.columns([0.5, 3, 0.5])  # Adjust the proportions as needed
             with col2:  # Center column for the plot
@@ -259,3 +259,22 @@ def app():
         The heatmap confirms the findings from the previous scatter plots, highlighting the strong relationships between job level and monthly income, as well as the positive associations between total working years, years at company, and monthly income. Age appears to have a limited influence on these variables.
         """)
 
+    with tab5:
+        st.subheader("Job Level Distribution")
+        
+        # Count the number of employees in each Job Level
+        job_level_counts = df['JobLevel'].value_counts().reset_index()
+        job_level_counts.columns = ['JobLevel', 'Count']
+
+        # Create a pie chart
+        fig_pie = px.pie(job_level_counts, values='Count', names='JobLevel',
+                        title='Distribution of Employees by Job Level',
+                        color_discrete_sequence=px.colors.sequential.RdBu)
+
+        # Display the pie chart
+        st.plotly_chart(fig_pie, use_container_width=True)
+
+        # Add insights below the plot
+        st.markdown("""
+        The pie chart shows that 36.8% and 36.4% of employees occupy Job Levels 2 and 3, indicating a strong presence of mid-level staff. In contrast, only 4.66% and 7.23% hold positions at Job Levels 4 and 5, suggesting limited representation in higher roles. This distribution highlights the need for enhanced career advancement opportunities and talent development strategies to encourage employees to pursue senior-level positions.
+        """)

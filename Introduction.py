@@ -17,7 +17,7 @@ def app():
         st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
 
     # Hero Section
-    col1, col2 = st.columns([1,1.4], gap="small")
+    col1, col2 = st.columns([1,1.4], gap="large")
     with col1:
         st.image('assets/HR.png', width=400)
         
@@ -25,7 +25,7 @@ def app():
     with col2:
         st.markdown("""<h1><span style='color: #fff;'>HR Analytics</span> Dataset</h1>""", unsafe_allow_html=True)
         st.markdown("""
-        <p style='text-align: left; font-size: 16px;'>
+        <p style='text-align: left; font-size: 16px; '>
             This dataset captures various aspects 
             of human resources, such as job roles, monthly income, and tenure within an organization. Its primary focus is to 
             provide insights into factors that influence key HR metrics, such as <span ><b>employee performance, job satisfaction, and 
@@ -34,7 +34,7 @@ def app():
         </p>
         """, unsafe_allow_html=True)
 
-        with st.container(border=True):
+        with st.container():
             # Markdown link with hover class
             st.markdown('<a href="https://www.kaggle.com/datasets/saadharoon27/hr-analytics-dataset" class="hover-link" ><i style="color: #eb5e28">🔗 Source: Saad Haroon (Kaggle)</i></a>', unsafe_allow_html=True)
         
@@ -57,7 +57,7 @@ def app():
         )
     
     # Create a container for the Dataset Overview
-    with st.container(border=True):
+    with st.container():
         # Dropdown menu for Dataset Overview
         data_option = st.selectbox(
             "Select Data View:",
