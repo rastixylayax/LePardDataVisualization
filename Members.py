@@ -2,8 +2,10 @@ from pathlib import Path
 import streamlit as st
 from streamlit_option_menu import option_menu
 
+
 def app():
     # --- LOAD CSS ---
+    
     current_dir = Path(__file__).parent if "__file__" in locals() else Path.cwd()
     css_file = current_dir / "styles" / "main.css"
     with open(css_file) as f:
@@ -48,3 +50,6 @@ def app():
     # 2_🌟_Introduction
     # 3_📈_Data Visualization
     # 4_📜_Conclusion
+# Run the app
+if __name__ == "__main__":
+    app()

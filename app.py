@@ -25,6 +25,18 @@ with st.sidebar:
         default_index=0,
     )
 
+    st.divider()
+    st.markdown(
+        """
+        <p style='text-align: center; font-size: 14px; color: #797776'>
+            <span>&copy; 2024 Team Le Pard | CIT-U </span>
+            <a href=")
+        </p>
+        """, unsafe_allow_html=True
+    )
+
+
+
     
 
 

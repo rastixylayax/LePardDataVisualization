@@ -29,25 +29,55 @@ def app():
     # Key metrics
     col1, col2, col3 = st.columns(3)
 
+    # Include Bootstrap Icons CSS
+    st.markdown("""
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    """, unsafe_allow_html=True)
+
+    # Create a container with a Bootstrap icon
     with col1:
-        st.metric("Most Common Age Range", "30-40 years")
+        with st.container(border=True):
+            coll1, coll2 = st.columns([0.8, 3]) 
+            with coll1:
+                st.markdown("<div style='text-align: center;'><i class='bi bi-people' style='color: #eb5e28; font-size: 38px;'></i></div>", unsafe_allow_html=True)  # Center the icon
+            with coll2:
+                st.metric("Most Common Age Range", "30-40 years")
     with col2:
-        st.metric("Most Frequent Job Level", "1 (Entry Level)")
+        with st.container(border=True):
+            coll1, coll2 = st.columns([0.8, 3]) 
+            with coll1:
+                st.markdown("<div style='text-align: center;'><i class='bi bi-graph-up' style='color: #eb5e28; font-size: 38px;'></i></div>", unsafe_allow_html=True)  # Center the icon
+            with coll2:
+                st.metric("Most Frequent Job Level", "1 (Entry Level)")
     with col3:    
-        st.metric("Salary Range", "$2,000-$10,000")
+        with st.container(border=True):
+            coll1, coll2 = st.columns([0.8, 3]) 
+            with coll1:
+                st.markdown("<div style='text-align: center;'><i class='bi bi-cash-coin' style='color: #eb5e28; font-size: 38px;'></i></div>", unsafe_allow_html=True)  # Center the icon
+            with coll2:
+                st.metric("Salary Range", "$2,000-$10,000")
 
     st.markdown("""<style> [data-testid="stMetricValue"] {font-size: 20px;} </style>""", unsafe_allow_html=True)
 
+    # Create a figure for the histogram
     fig = go.Figure()
 
-    hist = go.Histogram(x=df['Age'], nbinsx=30, name='Age')
+    # Create the histogram with the specified color
+    hist = go.Histogram(
+        x=df['Age'], 
+        nbinsx=30, 
+        name='Age',
+        marker_color='#E67644'  # Set the color of the histogram bars
+    )
     fig.add_trace(hist)
 
+    # Update the layout of the figure
     fig.update_layout(
         title_text='Histogram of Age within HR Analytics dataset',
         showlegend=False, 
-        height=400,  
-        width=700, 
+        height=500,  
+        width=1000, 
     )
-    st.plotly_chart(fig)
 
+    # Display the plot in Streamlit
+    st.plotly_chart(fig)
