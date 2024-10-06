@@ -276,5 +276,5 @@ def app():
 
         # Add insights below the plot
         st.markdown("""
-        The pie chart shows that 36.8% and 36.4% of employees occupy Job Levels 2 and 3, indicating a strong presence of mid-level staff. In contrast, only 4.66% and 7.23% hold positions at Job Levels 4 and 5, suggesting limited representation in higher roles. This distribution highlights the need for enhanced career advancement opportunities and talent development strategies to encourage employees to pursue senior-level positions.
+        The pie chart shows that 36.8% of employees occupy Job Level 1, while 36.4% are at Job Level 2, indicating a strong presence of entry-level and mid-level staff. In contrast, only 4.66% and 7.23% hold positions at Job Levels 4 and 5, suggesting limited representation in higher roles. This distribution highlights the need for enhanced career advancement opportunities and talent development strategies to encourage employees to pursue senior-level positions.
         """)
