@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap');
+
+
+/* Apply the font to all text elements except code blocks */
+body, h1, h2, h3, p {
+    font-family: 'League Spartan', sans-serif;
+}
+
+/* Reset font family for code blocks */
+pre, code {
+    font-family: monospace; /* Use default monospace font for code blocks */
+}
+
+/* #MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;} */
