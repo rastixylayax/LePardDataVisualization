@@ -1,5 +1,5 @@
-# A Visualizations Section with charts, graphs, or tables that highlight the key insights and 
-# trends from your data.
+# An Exploration Section with charts, graphs, or tables that highlight the key insights and 
+# data distributions in the dataset.
 
 import streamlit as st
 import pandas as pd
@@ -49,7 +49,7 @@ def app():
         st.dataframe(df_sheet2)
 
 
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(["Pie Chart", "Box Plot", "Density Plot", "Scatter Plot", "Heatmap"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Pie Chart", "Box Plot", "Density Plot", "Heatmap"])
 
     with tab1:
         with st.container(border=True):
@@ -113,131 +113,6 @@ def app():
         """)
 
     with tab4:
-        with st.container(border=True):
-            # Dropdown for selecting the scatter plot
-            scatter_plot_type = st.selectbox("Choose Scatter Plot", ["Job Level vs Monthly Income", "Age vs Monthly Income", "Total Working Years vs Monthly Income", "Years at Company vs Monthly Income"])
-            # Create two columns to limit width
-            col1, col2, col3 = st.columns([0.5, 4, 0.5]) 
-            with col2:  # Center column for the plot
-                
-
-                # Create a dictionary to map the dropdown options to the corresponding independent variables
-                scatter_plot_mapping = {
-                    "Job Level vs Monthly Income": "JobLevel",
-                    "Age vs Monthly Income": "Age",
-                    "Total Working Years vs Monthly Income": "TotalWorkingYears",
-                    "Years at Company vs Monthly Income": "YearsAtCompany"
-                }
-
-                # Create a dictionary to map each graph type to a specific color
-                color_mapping = {
-                    "Job Level vs Monthly Income": "lightpink",
-                    "Age vs Monthly Income": "aquamarine",
-                    "Total Working Years vs Monthly Income": "coral",
-                    "Years at Company vs Monthly Income": "plum"
-                }
-
-                # Get the selected independent variable and color
-                selected_variable = scatter_plot_mapping[scatter_plot_type]
-                selected_color = color_mapping[scatter_plot_type]
-
-                # Perform linear regression on the entire dataset
-                X = df[[selected_variable]].values
-                y = df['MonthlyIncome'].values
-                model_coefs = np.polyfit(X.squeeze(), y, 1)
-
-                # Calculate R-squared
-                def calculate_r_squared(x, y, coefs):
-                    y_pred = coefs[0] * x + coefs[1]
-                    y_mean = np.mean(y)
-                    ss_total = np.sum((y - y_mean) ** 2)
-                    ss_res = np.sum((y - y_pred) ** 2)
-                    r_squared = 1 - (ss_res / ss_total)
-                    return r_squared
-
-                r_squared = calculate_r_squared(X.squeeze(), y, model_coefs)
-
-                # Randomly sample 25% of the data for visualization
-                sampled_df = df.sample(frac=0.25, random_state=42)
-
-                # Create a scatter plot for the selected variable
-                scatter = go.Scatter(
-                    x=sampled_df[selected_variable], 
-                    y=sampled_df['MonthlyIncome'], 
-                    mode="markers", 
-                    marker=dict(color=selected_color), 
-                    name=f"Dependent Variable"
-                )
-                regression_line = go.Scatter(
-                    x=sampled_df[selected_variable], 
-                    y=sampled_df[selected_variable] * model_coefs[0] + model_coefs[1], 
-                    mode="lines", 
-                    line=dict(color=selected_color), 
-                    name=(
-                        f"Regression Line"
-                    )
-                )
-
-                # Create the figure
-                fig = go.Figure()
-                fig.add_trace(scatter)
-                fig.add_trace(regression_line)
-
-                # Calculate coordinates for annotations
-                x_coord = sampled_df[selected_variable].min() + 0.05 * (sampled_df[selected_variable].max() - sampled_df[selected_variable].min())
-                y_coord = sampled_df['MonthlyIncome'].max() - 0.1 * (sampled_df['MonthlyIncome'].max() - sampled_df['MonthlyIncome'].min())
-
-                # Add regression equation and R-squared to the plot
-                fig.add_annotation(
-                    text=f'y = {model_coefs[0]:.2f}x + {model_coefs[1]:.2f}',
-                    x=x_coord,
-                    y=y_coord,
-                    showarrow=False
-                )
-                fig.add_annotation(
-                    text=f'R² = {r_squared:.4f}',
-                    x=x_coord,
-                    y=y_coord - 0.1 * (sampled_df['MonthlyIncome'].max() - sampled_df['MonthlyIncome'].min()),
-                    showarrow=False
-                )
-
-                # Set the x and y labels
-                fig.update_xaxes(title_text=selected_variable)
-                fig.update_yaxes(title_text='MonthlyIncome')
-
-                # Update the overall figure size to make it larger
-                fig.update_layout(width=800, height=600)
-
-                # Show the figure
-                st.plotly_chart(fig)
-
-        # Display different markdown text for each selected scatter plot
-        if scatter_plot_type == "Job Level vs Monthly Income":
-            st.markdown(
-                """
-            The scatter plot shows a strong positive relationship between Job Level and Monthly Income. The regression line \(y = 4038.15x - 1833.24\) and the R-squared value of 0.9022 indicate that Job Level is a significant predictor of Monthly Income, explaining about 90% of the variation.
-            """
-            )
-        elif scatter_plot_type == "Age vs Monthly Income":
-            st.markdown(
-                """
-            The scatter plot shows a weak positive relationship between Age and Monthly Income. The regression line \(y = 256.15x - 2951.58\) and the R-squared value of 0.2475 suggest that Age is not a strong predictor of Monthly Income, explaining only about 25% of the variation.
-            """
-            )
-        elif scatter_plot_type == "Total Working Years vs Monthly Income":
-            st.markdown(
-                """
-            The scatter plot shows a moderate positive relationship between Total Working Years and Monthly Income. The regression line \(y = 466.83x + 1238.30\) and the R-squared value of 0.5957 suggest that Total Working Years is a reasonably strong predictor, explaining about 60% of the variation in Monthly Income.
-            """
-            )
-        elif scatter_plot_type == "Years at Company vs Monthly Income":
-            st.markdown(
-                """
-            The scatter plot shows a weak positive relationship between Years at Company and Monthly Income. The regression line \(y = 395.25x + 3734.47\) and the R-squared value of 0.2647 indicate that Years at Company has a weak effect on Monthly Income, explaining only about 26% of the variation.
-            """
-            )
-
-    with tab5:
         with st.container(border=True):
             # Create two columns to limit width
             col1, col2, col3 = st.columns([0.5, 3, 0.5])  # Adjust the proportions as needed

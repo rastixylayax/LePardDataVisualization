@@ -1,8 +1,9 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 import Members
-import Introduction
-import Data_Visualization
+import Overview
+import Data_Exploration
+import Data_Analysis
 import Conclusion
 import pathlib as Path
 
@@ -20,8 +21,8 @@ with st.sidebar:
 
     selected = option_menu(
         menu_title=None,
-        options=["Members", "Introduction", "Data Visualization", "Conclusion"],
-        icons=["bi-people", "bi-card-text", "bi-file-earmark-bar-graph", "bi-chat-left-quote"],
+        options=["Members", "Overview", "Data Exploration","Data Analysis", "Conclusion"],
+        icons=["bi-people", "bi-card-text", "bi-bar-chart-line","bi-graph-up", "bi-chat-left-quote"],
         default_index=0,
     )
 
@@ -43,9 +44,11 @@ with st.sidebar:
 # Load the appropriate page based on the selection
 if selected == "Members":
     Members.app()
-elif selected == "Introduction":
-    Introduction.app()
-elif selected == "Data Visualization":
-    Data_Visualization.app()
+elif selected == "Overview":
+    Overview.app()
+elif selected == "Data Exploration":
+    Data_Exploration.app()
+elif selected == "Data Analysis":
+    Data_Analysis.app()
 elif selected == "Conclusion":
     Conclusion.app()

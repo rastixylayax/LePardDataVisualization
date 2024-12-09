@@ -34,6 +34,12 @@ def app():
         </p>
         """, unsafe_allow_html=True)
 
+        st.markdown("""
+        <p style='text-align: left; font-size: 16px; '>
+            Data Analysis Techniques used: Linear Regression, DBSCAN, and K-Means Clustering.</b> </span>
+        </p>
+        """, unsafe_allow_html=True)
+
         with st.container():
             # Markdown link with hover class
             st.markdown('<a href="https://www.kaggle.com/datasets/saadharoon27/hr-analytics-dataset" class="hover-link" ><i style="color: #eb5e28">🔗 Source: Saad Haroon (Kaggle)</i></a>', unsafe_allow_html=True)
