@@ -161,19 +161,19 @@ def app():
             if scatter_plot_type == "Job Level vs Monthly Income":
                 st.markdown(
                     """
-                The scatter plot shows a strong positive relationship between Job Level and Monthly Income. The regression line \(y = 4038.15x - 1833.24\) and the R-squared value of 0.9022 indicate that Job Level is a significant predictor of Monthly Income, explaining about 90% of the variation.
+                The scatter plot shows a strong positive relationship between Job Level and Monthly Income. The regression line \(y = 4038.15x - 1833.24\) and the R-squared value of 0.9022 indicate that Job Level has a significant strong effect on Monthly Income, explaining about 90% of the variation.
                 """
                 )
             elif scatter_plot_type == "Age vs Monthly Income":
                 st.markdown(
                     """
-                The scatter plot shows a weak positive relationship between Age and Monthly Income. The regression line \(y = 256.15x - 2951.58\) and the R-squared value of 0.2475 suggest that Age is not a strong predictor of Monthly Income, explaining only about 25% of the variation.
+                The scatter plot shows a weak positive relationship between Age and Monthly Income. The regression line \(y = 256.15x - 2951.58\) and the R-squared value of 0.2475 suggest that Age has a weak effect on Monthly Income, explaining only about 25% of the variation.
                 """
                 )
             elif scatter_plot_type == "Total Working Years vs Monthly Income":
                 st.markdown(
                     """
-                The scatter plot shows a moderate positive relationship between Total Working Years and Monthly Income. The regression line \(y = 466.83x + 1238.30\) and the R-squared value of 0.5957 suggest that Total Working Years is a reasonably strong predictor, explaining about 60% of the variation in Monthly Income.
+                The scatter plot shows a moderate positive relationship between Total Working Years and Monthly Income. The regression line \(y = 466.83x + 1238.30\) and the R-squared value of 0.5957 suggest that Total Working Years has a reasonably strong effect on Monthly Income, explaining about 60% of the variation in Monthly Income.
                 """
                 )
             elif scatter_plot_type == "Years at Company vs Monthly Income":
