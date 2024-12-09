@@ -13,6 +13,7 @@ plotly = "*"
 streamlit = "*"
 openpyxl = "*"
 streamlit-option-menu = "*"
+scikit-learn = "*" 
 
 [dev-packages]
 
